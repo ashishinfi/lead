@@ -1,0 +1,96 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inline Edit Example</title>
+    <!-- Include required libraries -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/css/adminlte.min.css">
+</head>
+<body>
+    <div class="container">
+        <table id="example" class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data will be loaded dynamically -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Include jQuery library -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+    <!-- Include DataTables and AdminLTE scripts -->
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/js/adminlte.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+
+
+    <!-- Include your custom script -->
+  <script>
+        $(document).ready(function() {
+            // Initialize DataTable
+            var table = $('#example').DataTable({
+                "ajax": {
+                    "url": "http://127.0.0.1:8000/api/products/",
+                    "type": "GET",
+                    "dataSrc": ""
+                },
+                "columns": [
+                    { "data": "name" },
+                    { "data": "price" },
+                    {
+                        "data": null,
+                        "defaultContent": '<button class="btn btn-primary btn-sm edit-btn">Edit</button>'
+                    }
+                ]
+            });
+
+            // Handle inline editing
+            $('#example tbody').on('click', '.edit-btn', function () {
+                var $row = $(this).closest('tr');
+                var rowData = table.row($row).data();
+                var newData = {}; // New data to be updated
+
+                // Prompt for name and price updates
+                var newName = prompt('Enter new name:', rowData.name);
+                var newPrice = prompt('Enter new price:', rowData.price);
+
+                if (newName !== null && newPrice !== null) {
+                    newData.id = rowData.id;
+                    newData.name = newName;
+                    newData.price = newPrice;
+
+                    // Perform PUT request to update the data
+                    $.ajax({
+                        url: 'http://127.0.0.1:8000/api/products/' + newData.id + '/',
+                        type: 'PUT',
+                        contentType: 'application/json',
+                        data: JSON.stringify(newData),
+                        success: function (response) {
+                            // Assuming your server returns the updated data
+                            table.row($row).data(response).draw();
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error updating data:', error);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
+
+ 
+
+

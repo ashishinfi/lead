@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inline Edit Example</title>
+    <!-- Include required libraries -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
+</head>
+<body>
+    <div class="container">
+        <table id="example" class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data will be loaded dynamically -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Include required scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var table = $('#example').DataTable({
+                "ajax": {
+                    "url": "http://127.0.0.1:8000/api/products/",
+                    "type": "GET",
+                    "dataSrc": ""
+                },
+                "columns": [
+                    { "data": "name", "className": "editable" },
+                    { "data": "price", "className": "editable" },
+                    {
+                        "data": null,
+                        "defaultContent": '<button class="btn btn-primary btn-sm edit-btn">Edit</button>'
+                    }
+                ]
+            });
+
+            $('#example tbody').on('click', '.edit-btn', function () {
+                var $row = $(this).closest('tr');
+                var rowData = table.row($row).data();
+
+                $row.find('.editable').each(function() {
+                    var currentValue = $(this).text().trim();
+                    $(this).html('<input type="text" class="form-control" value="' + currentValue + '">');
+                });
+
+                $row.find('.edit-btn').removeClass('btn-primary').addClass('btn-success').text('Save');
+            });
+
+            $('#example tbody').on('click', '.btn-success', function () {
+                var $row = $(this).closest('tr');
+                var rowData = table.row($row).data();
+                var newData = {};
+
+                $row.find('.editable').each(function() {
+                    var field = $(this).index();
+                    var newValue = $(this).find('input').val().trim();
+                    $(this).html(newValue);
+                    rowData[field] = newValue;
+                });
+
+                $.ajax({
+                    url: 'http://127.0.0.1:8000/api/products/' + rowData.id + '/',
+                    type: 'PUT',
+                    contentType: 'application/json',
+                    data: JSON.stringify(rowData),
+                    success: function (response) {
+                        table.row($row).data(response).draw();
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error updating data:', error);
+                    }
+                });
+
+                $row.find('.edit-btn').removeClass('btn-success').addClass('btn-primary').text('Edit');
+            });
+        });
+    </script>
+</body>
+</html>
