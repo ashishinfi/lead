@@ -192,20 +192,20 @@ def customer_data(request):
 @api_view(['POST'])
 def contact_data(request):
     # Extract data directly from request.data assuming JSON body
+    
     Email = request.data.get('Email',None)
-    Mobile_Number = request.data.get('Mobile_Number',None)
-    print(Mobile_Number,'======')
+    Mobile_Number = request.data.get('phonetext-549',None)
     Website_Url = request.data.get('Website_Url',None)
     Page_Url = request.data.get('Page_Url',None)
-    Date = request.data.get('Date',None)
-    Time = request.data.get('Time',None)
-    Lead_ID = request.data.get('Lead_ID',None)
-    Referral_information_field = request.data.get('Referral_information_field',None)
+    Date = request.data.get('_date',None)
+    Time = request.data.get('_time',None)
+    Lead_ID = request.data.get('_serial_number',None)
+    Referral_information_field = request.data.get('referral_Information_field',None)
     Visitor_came_from = request.data.get('Visitor_came_from',None)
     utm_source = request.data.get('utm_source',None)
     utm_medium = request.data.get('utm_medium',None)
     utm_campaign = request.data.get('utm_campaign'),None
-    Last_visited_pages = request.data.get('Last_visited_pages',None)
+    Last_visited_pages = request.data.get('CF7VPUT_VISITED_Details',None)
 
     # Create a new Product object with the extracted data
     newdata = Product.objects.create(
