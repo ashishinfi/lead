@@ -45,16 +45,16 @@ class Sale(models.Model):
 class Contact(models.Model):
     Name = models.CharField(blank=True, null=True,max_length=255)
     Email = models.EmailField(blank=True, null=True)
-    Mobile_Number = models.CharField(blank=True, null=True, max_length=15)
+    tel = models.CharField(blank=True, null=True, max_length=15)
     Website_Url = models.URLField( blank=True, null=True,)
     Page_Url = models.URLField(blank=True, null=True,)
-    Date = models.CharField(blank=True, null=True,max_length=15)
-    Time = models.CharField(blank=True, null=True,max_length=15)
-    Lead_ID = models.CharField(blank=True, null=True,max_length=50)
-    Referral_information_field = models.TextField(blank=True, null=True,)
+    _date = models.CharField(blank=True, null=True,max_length=15)
+    _time = models.CharField(blank=True, null=True,max_length=15)
+    _serial_number = models.CharField(blank=True, null=True,max_length=50)
+    referral_Information_field = models.TextField(blank=True, null=True,)
     utm_source = models.CharField(blank=True, null=True,max_length=50)
     utm_medium = models.CharField(blank=True, null=True,max_length=50)
     utm_campaign = models.CharField(blank=True, null=True,max_length=50)
-    Last_visited_pages = models.TextField(blank=True, null=True,)
+    CF7VPUT_VISITED_Details = models.TextField(blank=True, null=True,)
     
 

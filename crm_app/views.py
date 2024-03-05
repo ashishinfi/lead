@@ -4,6 +4,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.http import JsonResponse
 from .models import Product  # Make sure to import your Product model correctly
+from .models import Contact 
 
 
 from django.http import HttpResponse
@@ -204,11 +205,11 @@ def contact_data(request):
     referral_Information_field = request.data.get('referral_Information_field',None)
     utm_source = request.data.get('utm_source',None)
     utm_medium = request.data.get('utm_medium',None)
-    utm_campaign = request.data.get('utm_campaign'),None
+    utm_campaign = request.data.get('utm_campaign',None)
     CF7VPUT_VISITED_Details = request.data.get('CF7VPUT_VISITED_Details',None)
 
     # Create a new Product object with the extracted data
-    newdata = Product.objects.create(
+    newdata = Contact.objects.create(
         Name=Name,
         Email=Email, 
         tel=tel, 
@@ -229,16 +230,15 @@ def contact_data(request):
         'id': newdata.id, 
         'Name': newdata.Name,
         'Email': newdata.Email, 
-        'Mobilenumber': newdata.Mobile_Number, 
-        'Website_url': newdata.Website_Url, 
-        'Pageurl': newdata.Page_Url, 
-        'Date': newdata.Date, 
-        'Time': newdata.Time,
-        'Lead_ID': newdata.Lead_ID,
-        'Referral_information_field': newdata.Referral_information_field,
-        'Visitor_came_from': newdata.Visitor_came_from,
+        'tel': newdata.tel, 
+        'Website_Url': newdata.Website_Url, 
+        'Page_Url': newdata.Page_Url, 
+        '_date': newdata._date, 
+        '_time': newdata._time,
+        '_serial_number': newdata._serial_number,
+        'referral_Information_field': newdata.referral_Information_field,
         'utm_source': newdata.utm_source,
         'utm_medium': newdata.utm_medium,
         'utm_campaign': newdata.utm_campaign,
-        'Last_visited_pages': newdata.Last_visited_pages 
+        'CF7VPUT_VISITED_Details': newdata.CF7VPUT_VISITED_Details 
     })
