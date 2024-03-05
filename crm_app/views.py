@@ -1,5 +1,10 @@
 from django.shortcuts import render
 from django.http import JsonResponse
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from django.http import JsonResponse
+from .models import Product  # Make sure to import your Product model correctly
+
 
 from django.http import HttpResponse
 from django.template import loader
@@ -184,23 +189,55 @@ def customer_data(request):
 
         return JsonResponse({'id': new_data.id, 'firstname':new_data.first_name, 'last_name':new_data.last_name,'email':new_data.email, 'phone':new_data.phone, 'address':new_data.address})
     
-
+@api_view(['POST'])
 def contact_data(request):
-    if request.method=='POST' and request.is_ajax():
-        Email=request.POST.get('Email')
-        Mobile_Number=request.POST.get('Mobile_Number')
-        Website_Url=request.POST.get('Website_Url')
-        Page_Url=request.POST.get('Page_Url')
-        Date=request.POST.get('Date')
-        Time=request.POST.get('Time')
-        Lead_ID=request.POST.get('Lead_ID')
-        Referral_information_field=request.POST.get('Referral_information_field')
-        Visitor_came_from=request.POST.get('Visitor_came_from')
-        utm_source=request.POST.get('utm_source')
-        utm_medium=request.POST.get('utm_medium')
-        utm_campaign=request.POST.get('utm_campaign')
-        Last_visited_pages=request.POST.get('Last_visited_pages')
+    # Extract data directly from request.data assuming JSON body
+    Email = request.data.get('Email',None)
+    Mobile_Number = request.data.get('Mobile_Number',None)
+    print(Mobile_Number,'======')
+    Website_Url = request.data.get('Website_Url',None)
+    Page_Url = request.data.get('Page_Url',None)
+    Date = request.data.get('Date',None)
+    Time = request.data.get('Time',None)
+    Lead_ID = request.data.get('Lead_ID',None)
+    Referral_information_field = request.data.get('Referral_information_field',None)
+    Visitor_came_from = request.data.get('Visitor_came_from',None)
+    utm_source = request.data.get('utm_source',None)
+    utm_medium = request.data.get('utm_medium',None)
+    utm_campaign = request.data.get('utm_campaign'),None
+    Last_visited_pages = request.data.get('Last_visited_pages',None)
 
-        newdata=Product.objects.create(Email=Email,Mobile_Number=Mobile_Number,Website_Url=Website_Url, Page_Url=Page_Url, Date=Date, Time=Time, Lead_ID=Lead_ID,Referral_information_field=Referral_information_field,Visitor_came_from=Visitor_came_from,utm_source=utm_source,utm_medium=utm_medium,utm_campaign=utm_campaign,Last_visited_pages=Last_visited_pages)
+    # Create a new Product object with the extracted data
+    newdata = Product.objects.create(
+        Email=Email, 
+        Mobile_Number=Mobile_Number, 
+        Website_Url=Website_Url, 
+        Page_Url=Page_Url, 
+        Date=Date, 
+        Time=Time, 
+        Lead_ID=Lead_ID,
+        Referral_information_field=Referral_information_field,
+        Visitor_came_from=Visitor_came_from,
+        utm_source=utm_source,
+        utm_medium=utm_medium,
+        utm_campaign=utm_campaign,
+        Last_visited_pages=Last_visited_pages
+    )
 
-        return JsonResponse({'id':newdata.id, 'Email':newdata.Email, 'Mobilenumber':newdata.Mobile_Number, 'Website_url':newdata.Website_Url, 'Pageurl':newdata.Page_Url, 'Date':newdata.Date, 'Time':newdata.Time,'Lead_ID':newdata.Lead_ID,'Referral_information_field':newdata.Referral_information_field,'Visitor_came_from':newdata.Visitor_came_from,'utm_source':newdata.utm_source,'utm_medium':newdata.utm_medium,'utm_campaign':newdata.utm_campaign,'Last_visited_pages':newdata.Last_visited_pages })
+    # Return the created Product object data as JSON
+    return JsonResponse({
+        'id': newdata.id, 
+        'Email': newdata.Email, 
+        'Mobilenumber': newdata.Mobile_Number, 
+        'Website_url': newdata.Website_Url, 
+        'Pageurl': newdata.Page_Url, 
+        'Date': newdata.Date, 
+        'Time': newdata.Time,
+        'Lead_ID': newdata.Lead_ID,
+        'Referral_information_field': newdata.Referral_information_field,
+        'Visitor_came_from': newdata.Visitor_came_from,
+        'utm_source': newdata.utm_source,
+        'utm_medium': newdata.utm_medium,
+        'utm_campaign': newdata.utm_campaign,
+        'Last_visited_pages': newdata.Last_visited_pages 
+    })
