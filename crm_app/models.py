@@ -43,7 +43,7 @@ class Sale(models.Model):
 
 
 class Contact(models.Model):
-    Name = models.CharField(blank=True, null=True,max_length=555)
+    Name = models.CharField(blank=True, null=True,max_length=255)
     Email = models.EmailField(blank=True, null=True)
     Mobile_Number = models.CharField(blank=True, null=True, max_length=15)
     Website_Url = models.URLField( blank=True, null=True,)
@@ -52,7 +52,6 @@ class Contact(models.Model):
     Time = models.CharField(blank=True, null=True,max_length=15)
     Lead_ID = models.CharField(blank=True, null=True,max_length=50)
     Referral_information_field = models.TextField(blank=True, null=True,)
-    Visitor_came_from = models.CharField(blank=True, null=True,max_length=100)
     utm_source = models.CharField(blank=True, null=True,max_length=50)
     utm_medium = models.CharField(blank=True, null=True,max_length=50)
     utm_campaign = models.CharField(blank=True, null=True,max_length=50)

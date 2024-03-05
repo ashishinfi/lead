@@ -195,35 +195,33 @@ def contact_data(request):
     
     Name = request.data.get('Name', None)
     Email = request.data.get('Email',None)
-    Mobile_Number = request.data.get('tel',None)
+    tel = request.data.get('tel',None)
     Website_Url = request.data.get('Website_Url',None)
     Page_Url = request.data.get('Page_Url',None)
-    Date = request.data.get('_date',None)
-    Time = request.data.get('_time',None)
-    Lead_ID = request.data.get('_serial_number',None)
-    Referral_information_field = request.data.get('referral_Information_field',None)
-    Visitor_came_from = request.data.get('Visitor_came_from',None)
+    _date = request.data.get('_date',None)
+    _time = request.data.get('_time',None)
+    _serial_number = request.data.get('_serial_number',None)
+    referral_Information_field = request.data.get('referral_Information_field',None)
     utm_source = request.data.get('utm_source',None)
     utm_medium = request.data.get('utm_medium',None)
     utm_campaign = request.data.get('utm_campaign'),None
-    Last_visited_pages = request.data.get('CF7VPUT_VISITED_Details',None)
+    CF7VPUT_VISITED_Details = request.data.get('CF7VPUT_VISITED_Details',None)
 
     # Create a new Product object with the extracted data
     newdata = Product.objects.create(
         Name=Name,
         Email=Email, 
-        Mobile_Number=Mobile_Number, 
+        tel=tel, 
         Website_Url=Website_Url, 
         Page_Url=Page_Url, 
-        Date=Date, 
-        Time=Time, 
-        Lead_ID=Lead_ID,
-        Referral_information_field=Referral_information_field,
-        Visitor_came_from=Visitor_came_from,
+        _date=_date, 
+        _time=_time, 
+        _serial_number=_serial_number,
+        referral_Information_field=referral_Information_field,
         utm_source=utm_source,
         utm_medium=utm_medium,
         utm_campaign=utm_campaign,
-        Last_visited_pages=Last_visited_pages
+        CF7VPUT_VISITED_Details=CF7VPUT_VISITED_Details
     )
 
     # Return the created Product object data as JSON
