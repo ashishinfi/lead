@@ -193,8 +193,9 @@ def customer_data(request):
 def contact_data(request):
     # Extract data directly from request.data assuming JSON body
     
+    Name = request.data.get('Name', None)
     Email = request.data.get('Email',None)
-    Mobile_Number = request.data.get('phonetext-549',None)
+    Mobile_Number = request.data.get('tel',None)
     Website_Url = request.data.get('Website_Url',None)
     Page_Url = request.data.get('Page_Url',None)
     Date = request.data.get('_date',None)
@@ -209,6 +210,7 @@ def contact_data(request):
 
     # Create a new Product object with the extracted data
     newdata = Product.objects.create(
+        Name=Name,
         Email=Email, 
         Mobile_Number=Mobile_Number, 
         Website_Url=Website_Url, 
@@ -227,6 +229,7 @@ def contact_data(request):
     # Return the created Product object data as JSON
     return JsonResponse({
         'id': newdata.id, 
+        'Name': newdata.Name,
         'Email': newdata.Email, 
         'Mobilenumber': newdata.Mobile_Number, 
         'Website_url': newdata.Website_Url, 

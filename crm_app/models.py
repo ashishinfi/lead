@@ -43,6 +43,7 @@ class Sale(models.Model):
 
 
 class Contact(models.Model):
+    Name = models.CharField(blank=True, null=True,max_length=555)
     Email = models.EmailField(blank=True, null=True)
     Mobile_Number = models.CharField(blank=True, null=True, max_length=15)
     Website_Url = models.URLField( blank=True, null=True,)
