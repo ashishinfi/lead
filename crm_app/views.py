@@ -193,52 +193,36 @@ def customer_data(request):
 @api_view(['POST'])
 def contact_data(request):
     # Extract data directly from request.data assuming JSON body
-    
-    Name = request.data.get('Name', None)
-    Email = request.data.get('Email',None)
-    tel = request.data.get('tel',None)
-    Website_Url = request.data.get('Website_Url',None)
-    Page_Url = request.data.get('Page_Url',None)
-    _date = request.data.get('_date',None)
-    _time = request.data.get('_time',None)
-    _serial_number = request.data.get('_serial_number',None)
-    referral_Information_field = request.data.get('referral_Information_field',None)
-    utm_source = request.data.get('utm_source',None)
-    utm_medium = request.data.get('utm_medium',None)
-    utm_campaign = request.data.get('utm_campaign',None)
-    CF7VPUT_VISITED_Details = request.data.get('CF7VPUT_VISITED_Details',None)
-
-    # Create a new Product object with the extracted data
-    newdata = Contact.objects.create(
-        Name=Name,
-        Email=Email, 
-        tel=tel, 
-        Website_Url=Website_Url, 
-        Page_Url=Page_Url, 
-        _date=_date, 
-        _time=_time, 
-        _serial_number=_serial_number,
-        referral_Information_field=referral_Information_field,
-        utm_source=utm_source,
-        utm_medium=utm_medium,
-        utm_campaign=utm_campaign,
-        CF7VPUT_VISITED_Details=CF7VPUT_VISITED_Details
+    new_contact = Contact.objects.create(
+        Name=request.data.get('Name', None),
+        Email=request.data.get('Email', None),
+        tel=request.data.get('tel', None),
+        Website_Url=request.data.get('Website_Url', None),
+        Page_Url=request.data.get('Page_Url', None),
+        _date=request.data.get('_date', None),
+        _time=request.data.get('_time', None),
+        _serial_number=request.data.get('_serial_number', None),
+        referral_Information_field=request.data.get('referral_Information_field', None),
+        utm_source=request.data.get('utm_source', None),
+        utm_medium=request.data.get('utm_medium', None),
+        utm_campaign=request.data.get('utm_campaign', None),
+        CF7VPUT_VISITED_Details=request.data.get('CF7VPUT_VISITED_Details', None)
     )
 
-    # Return the created Product object data as JSON
+    # Return the created Contact object data as JSON
     return JsonResponse({
-        'id': newdata.id, 
-        'Name': newdata.Name,
-        'Email': newdata.Email, 
-        'tel': newdata.tel, 
-        'Website_Url': newdata.Website_Url, 
-        'Page_Url': newdata.Page_Url, 
-        '_date': newdata._date, 
-        '_time': newdata._time,
-        '_serial_number': newdata._serial_number,
-        'referral_Information_field': newdata.referral_Information_field,
-        'utm_source': newdata.utm_source,
-        'utm_medium': newdata.utm_medium,
-        'utm_campaign': newdata.utm_campaign,
-        'CF7VPUT_VISITED_Details': newdata.CF7VPUT_VISITED_Details 
+        'id': new_contact.id,
+        'Name': new_contact.Name,
+        'Email': new_contact.Email,
+        'tel': new_contact.tel,
+        'Website_Url': new_contact.Website_Url,
+        'Page_Url': new_contact.Page_Url,
+        '_date': new_contact._date,
+        '_time': new_contact._time,
+        '_serial_number': new_contact._serial_number,
+        'referral_Information_field': new_contact.referral_Information_field,
+        'utm_source': new_contact.utm_source,
+        'utm_medium': new_contact.utm_medium,
+        'utm_campaign': new_contact.utm_campaign,
+        'CF7VPUT_VISITED_Details': new_contact.CF7VPUT_VISITED_Details
     })
